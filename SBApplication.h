@@ -4,7 +4,7 @@
  *     class-dump is Copyright (C) 1997-1998, 2000-2001, 2004-2011 by Steve Nygard.
  */
 
-#import "NSObject.h"
+#import <Foundation/NSObject.h>
 
 #import "SBDisplayProtocol-Protocol.h"
 #import "SBSystemLocalNotificationAlertDelegate-Protocol.h"
@@ -87,10 +87,10 @@
     NSMutableSet *_requireLocalNotificationsCachingReasons;
     NSArray *_cachedLocalNotifications;
     unsigned int _applicationState;
-    struct _opaque_pthread_mutex_t {
+    struct _opaque_pthread_mutex_t /*{
         long __sig;
         char __opaque[40];
-    } _appBundleMutex;
+    } */_appBundleMutex;
     NSDate *_nextApplicationWakeDate;
     PCPersistentTimer *_applicationWakeTimer;
     PCPersistentTimer *_localNotificationTimer;
@@ -377,7 +377,7 @@
 - (void)flushSnapshots;
 - (id)appSnapshotPath;
 - (id)customSpotlightIconPathsForKey:(id)arg1;
-- (void)validateSystemProvisioningEntitlements:(CDStruct_6ad76789 *)arg1;
+//- (void)validateSystemProvisioningEntitlements:(CDStruct_6ad76789 *)arg1;
 - (BOOL)isLaunchableDuringSetup;
 - (BOOL)hasGameCenterData;
 - (BOOL)isNowRecordingApplication;
