@@ -4,28 +4,31 @@
  *     class-dump is Copyright (C) 1997-1998, 2000-2001, 2004-2011 by Steve Nygard.
  */
 
-#import "NSObject.h"
-
+#import <Foundation/NSObject.h>
+/*)
+#import "SBIconViewDelegate-Protocol.h"
 #import "SBIconIndexNodeObserver-Protocol.h"
 #import "SBIconObserver-Protocol.h"
 #import "SBIconViewObserver-Protocol.h"
-
+*/
 @class NSMapTable, SBIconModel;
 
-@interface SBIconViewMap : NSObject <SBIconObserver, SBIconIndexNodeObserver, SBIconViewObserver>
+@interface SBIconViewMap : NSObject // <SBIconObserver, SBIconIndexNodeObserver, SBIconViewObserver>
 {
     SBIconModel *_model;
     NSMapTable *_iconViewsForIcons;
-    id <SBIconViewMapDelegate> _delegate;
-    id <SBIconViewDelegate> _viewDelegate;
+    // id <SBIconViewMapDelegate> _delegate;
+    // id <SBIconViewDelegate> _viewDelegate;
     NSMapTable *_recycledIconViewsByType;
     NSMapTable *_labels;
     NSMapTable *_badges;
 }
 
+// @property(nonatomic) id <SBIconViewDelegate> viewDelegate; // @synthesize viewDelegate=_viewDelegate;
+
 + (id)switcherMap;
 + (id)homescreenMap;
-@property(nonatomic) id <SBIconViewDelegate> viewDelegate; // @synthesize viewDelegate=_viewDelegate;
+
 - (void)iconViewDidChangeLocation:(id)arg1;
 - (void)node:(id)arg1 didRemoveContainedNodeIdentifiers:(id)arg2;
 - (void)node:(id)arg1 didAddContainedNodeIdentifiers:(id)arg2;

@@ -4,8 +4,7 @@
  *     class-dump is Copyright (C) 1997-1998, 2000-2001, 2004-2011 by Steve Nygard.
  */
 
-#import "NSObject.h"
-
+#import <Foundation/Foundation.h>
 #import "SBIconIndexNode-Protocol.h"
 
 @class NSHashTable, UIImage;
@@ -20,7 +19,7 @@
 
 + (id)memoryMappedIconImageOfSize:(struct CGSize)arg1 scale:(float)arg2 withDrawing:(id)arg3;
 + (id)memoryMappedIconImageForIconImage:(id)arg1;
-+ (id)_memoryMappedIconImageOfSize:(struct CGSize)arg1 scale:(float)arg2 withDrawing:(id)arg3 fallbackImage:(void)arg4;
++ (id)_iconImageOfSize:(struct CGSize)arg1 scale:(float)arg2 failGracefully:(BOOL)arg3 drawing:(id)arg4;
 - (id)folderFallbackTitle;
 - (id)folderTitleOptions;
 - (id)uninstallAlertCancelTitle;

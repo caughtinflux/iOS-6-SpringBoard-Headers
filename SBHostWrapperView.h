@@ -4,7 +4,7 @@
  *     class-dump is Copyright (C) 1997-1998, 2000-2001, 2004-2011 by Steve Nygard.
  */
 
-#import "UIView.h"
+#import <UIKit/UIView.h>
 
 #import "SBHostView-Protocol.h"
 
@@ -20,6 +20,7 @@
 @property(retain, nonatomic) UIColor *backgroundColorWhileNotHosting; // @synthesize backgroundColorWhileNotHosting=_backgroundColorWhileNotHosting;
 @property(retain, nonatomic) UIColor *backgroundColorWhileHosting; // @synthesize backgroundColorWhileHosting=_backgroundColorWhileHosting;
 @property(nonatomic) SBAppContextHostManager *manager; // @synthesize manager=_manager;
+
 - (id)window;
 - (id)hitTest:(struct CGPoint)arg1 withEvent:(id)arg2;
 - (id)description;

@@ -8,8 +8,10 @@
 
 #import "SBShowcaseControllerOwner-Protocol.h"
 #import "SBSlidingAlertDisplayDelegate-Protocol.h"
+#import "SBDeviceLockViewOwner-Protocol.h"
 
-@class NSDate, NSDictionary, NSMutableArray, NSMutableDictionary, NSObject<OS_dispatch_queue>, NSString, PLCameraPageController, SBAlertItem, SBApplication, SBAwayBulletinListController, SBAwayView, SBDeviceLockDisableAssertion, SBShowcaseController, SBUIController, UIImageView, UIView, _UIDynamicValueAnimation;
+
+@class NSDate, NSDictionary, NSMutableArray, NSMutableDictionary, NSString, PLCameraPageController, SBAlertItem, SBApplication, SBAwayBulletinListController, SBAwayView, SBDeviceLockDisableAssertion, SBShowcaseController, SBUIController, UIImageView, UIView, _UIDynamicValueAnimation;
 
 @interface SBAwayController : SBAlert <SBSlidingAlertDisplayDelegate, SBShowcaseControllerOwner>
 {
@@ -37,7 +39,7 @@
     int _unlockSource;
     NSDictionary *_nowPlayingInfo;
     SBApplication *_nowPlayingApp;
-    id <SBDeviceLockViewOwner> _deviceUnlockDisplay;
+    id<SBDeviceLockViewOwner> _deviceUnlockDisplay;
     BOOL _chargingViewHasFadedOut;
     NSMutableArray *_pendingAlertItems;
     NSMutableArray *_pendingSuperModalAlertItems;
@@ -65,7 +67,7 @@
     BOOL _disableGracePeriodForCamera;
     SBDeviceLockDisableAssertion *_disableGracePeriodForCameraAssertion;
     SBDeviceLockDisableAssertion *_disableDeviceLockWhileUnlockedAssertion;
-    NSObject<OS_dispatch_queue> *_prewarmQueue;
+    dispatch_queue_t _prewarmQueue;
     int _gracePeriodWhenLocked;
     BOOL _keepBulletinsUnreadOnUnlock;
     NSString *_currentTestName;
@@ -75,9 +77,12 @@
 + (void)registerForAlerts;
 + (id)sharedAwayControllerIfExists;
 + (id)sharedAwayController;
+
 @property(retain, nonatomic) NSString *currentTestName; // @synthesize currentTestName=_currentTestName;
 @property(retain, nonatomic) SBShowcaseController *showcaseController; // @synthesize showcaseController=_showcaseController;
 @property(nonatomic) BOOL chargingViewHasFadedOut; // @synthesize chargingViewHasFadedOut=_chargingViewHasFadedOut;
+@property(readonly) BOOL hasEverBeenLocked;
+
 - (void)runUnlockTest:(id)arg1 options:(id)arg2;
 - (void)_irisOpened;
 - (void)slidingAlertViewDeactivationAnimationCompleted:(id)arg1;
@@ -88,8 +93,8 @@
 - (void)showcaseWantsToBeDismissed:(id)arg1 animated:(BOOL)arg2;
 - (void)showcase:(id)arg1 updateRevealMode:(int)arg2 withBlock:(id)arg3;
 - (BOOL)presentShowcaseViewController:(id)arg1 revealMode:(int)arg2 completion:(id)arg3;
-- (void)_adjustViewHierarchyForShowcase:(id)arg1 revealAmount:(float)arg2;
-- (float)showcaseWindowLevel:(id)arg1;
+- (void)_adjustViewHierarchyForShowcase:(id)arg1 revealAmount:(CGFloat)arg2;
+- (CGFloat)showcaseWindowLevel:(id)arg1;
 - (void)_sendToDeviceLockOwnerAnimateToEmergencyCall;
 - (BOOL)_sendToDeviceLockOwnerShouldUseTransparentStatusBar;
 - (BOOL)_sendToDeviceLockOwnerIsDisplayingErrorStatus;
@@ -114,7 +119,7 @@
 - (BOOL)handleMenuButtonHeld;
 - (BOOL)handleMenuButtonDoubleTap;
 - (BOOL)handleMenuButtonTap;
-- (struct CGRect)defaultContentRegionForPluginController:(id)arg1 withOrientation:(int)arg2;
+- (CGRect)defaultContentRegionForPluginController:(id)arg1 withOrientation:(int)arg2;
 - (BOOL)awayPluginControllerShouldAnimateOthersResumption;
 - (void)pluginFullscreenNotification:(id)arg1;
 - (void)disablePluginContainerNotification:(id)arg1;
@@ -122,10 +127,10 @@
 - (void)_disablePluginControllersForUnlock;
 - (void)_disablePluginControllersForLock;
 - (void)pluginVisiblityStateChanged:(id)arg1;
-- (void)disableLockScreenBundleWithName:(id)arg1 deactivationContext:(id)arg2;
-- (void)disableLockScreenBundleWithName:(id)arg1;
-- (void)enableLockScreenBundleWithName:(id)arg1;
-- (void)enableLockScreenBundleWithName:(id)arg1 activationContext:(id)arg2;
+- (void)disableLockScreenBundleWithName:(NSString *)name deactivationContext:(id)arg2;
+- (void)disableLockScreenBundleWithName:(NSString *)name;
+- (void)enableLockScreenBundleWithName:(NSString *)name;
+- (void)enableLockScreenBundleWithName:(NSString *)name activationContext:(id)arg2;
 - (id)nameOfPluginController:(id)arg1;
 - (id)interfaceControllingAwayPluginController;
 - (id)activeAwayPluginController;
@@ -160,7 +165,6 @@
 - (void)emergencyCallWasDisplayed;
 - (void)makeEmergencyCall;
 - (void)handleRequestedAlbumArt:(id)arg1;
-- (void)_iapExtendedModeChanged:(id)arg1;
 - (void)_nowPlayingStateChanged:(id)arg1;
 - (void)_nowPlayingAppChanged:(id)arg1;
 - (void)updateAwayViewNowPlayingInfo;
@@ -185,7 +189,7 @@
 - (void)undimScreen;
 - (int)interfaceOrientationForActivation;
 - (void)dimScreen:(BOOL)arg1;
-- (void)preventIdleSleepForNumberOfSeconds:(float)arg1;
+- (void)preventIdleSleepForNumberOfSeconds:(CGFloat)arg1;
 - (void)preventIdleSleep;
 - (void)allowIdleSleep;
 - (void)relockForButtonPress:(BOOL)arg1 afterCall:(BOOL)arg2 dimmed:(BOOL)arg3;
@@ -194,8 +198,8 @@
 - (void)finishedDimmingScreen;
 - (BOOL)isActivatingWhileDimmed;
 - (BOOL)isDimmed;
-- (void)_restartDimTimer:(float)arg1 mode:(int)arg2;
-- (void)restartDimTimer:(float)arg1;
+- (void)_restartDimTimer:(CGFloat)arg1 mode:(int)arg2;
+- (void)restartDimTimer:(CGFloat)arg1;
 - (void)restartDimTimer;
 - (void)cancelDimTimer;
 - (BOOL)attemptDeviceUnlockWithPassword:(id)arg1 lockViewOwner:(id)arg2;
@@ -295,9 +299,9 @@
 - (void)animationDidStop:(id)arg1 finished:(BOOL)arg2;
 - (void)handleCameraTapGesture:(id)arg1;
 - (void)handleCameraPanGesture:(id)arg1;
-- (void)_handleCameraPanGestureEndedWithVelocity:(float)arg1;
+- (void)_handleCameraPanGestureEndedWithVelocity:(CGFloat)arg1;
 - (id)_newDynamicAnimationForCameraStart:(BOOL)arg1 targetValue:(double)arg2 withInitialVelocity:(double)arg3;
-- (void)_translateSlidingViewByY:(float)arg1;
+- (void)_translateSlidingViewByY:(CGFloat)arg1;
 - (void)_setupCameraSlideDownAnimation;
 - (void)_cleanupFromCanceledCameraDismissGesture;
 - (void)_cleanupFromCameraPanGesture;
@@ -312,11 +316,10 @@
 - (id)alertDisplayViewWithSize:(struct CGSize)arg1;
 - (id)awayView;
 - (BOOL)undimsDisplay;
-- (float)finalAlpha;
+- (CGFloat)finalAlpha;
 - (BOOL)showsSpringBoardStatusBar;
-- (struct CGRect)alertWindowRect;
+- (CGRect)alertWindowRect;
 - (id)initWithUIController:(id)arg1;
-@property(readonly) BOOL hasEverBeenLocked;
 
 @end
 

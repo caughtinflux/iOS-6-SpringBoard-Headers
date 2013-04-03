@@ -4,23 +4,23 @@
  *     class-dump is Copyright (C) 1997-1998, 2000-2001, 2004-2011 by Steve Nygard.
  */
 
-#import <Foundation/NSObject.h>
+#import <Foundation/Foundation.h>
 
 @protocol SBDisplayProtocol <NSObject>
-- (id)deactivationValue:(unsigned int)arg1;
-- (BOOL)deactivationFlag:(unsigned int)arg1;
-- (void)setDeactivationSetting:(unsigned int)arg1 value:(id)arg2;
-- (void)setDeactivationSetting:(unsigned int)arg1 flag:(BOOL)arg2;
+- (id)deactivationValue:(NSUInteger)arg1;
+- (BOOL)deactivationFlag:(NSUInteger)arg1;
+- (void)setDeactivationSetting:(NSUInteger)arg1 value:(id)arg2;
+- (void)setDeactivationSetting:(NSUInteger)arg1 flag:(BOOL)arg2;
 - (void)clearDeactivationSettings;
-- (id)activationValue:(unsigned int)arg1;
-- (BOOL)activationFlag:(unsigned int)arg1;
-- (void)setActivationSetting:(unsigned int)arg1 value:(id)arg2;
-- (void)setActivationSetting:(unsigned int)arg1 flag:(BOOL)arg2;
+- (id)activationValue:(NSUInteger)arg1;
+- (BOOL)activationFlag:(NSUInteger)arg1;
+- (void)setActivationSetting:(NSUInteger)arg1 value:(id)arg2;
+- (void)setActivationSetting:(NSUInteger)arg1 flag:(BOOL)arg2;
 - (void)clearActivationSettings;
-- (id)displayValue:(unsigned int)arg1;
-- (BOOL)displayFlag:(unsigned int)arg1;
-- (void)setDisplaySetting:(unsigned int)arg1 value:(id)arg2;
-- (void)setDisplaySetting:(unsigned int)arg1 flag:(BOOL)arg2;
+- (id)displayValue:(NSUInteger)arg1;
+- (BOOL)displayFlag:(NSUInteger)arg1;
+- (void)setDisplaySetting:(NSUInteger)arg1 value:(id)arg2;
+- (void)setDisplaySetting:(NSUInteger)arg1 flag:(BOOL)arg2;
 - (void)clearDisplaySettings;
 - (BOOL)expectsFaceContactInLandscape;
 - (BOOL)expectsFaceContact;
@@ -31,11 +31,11 @@
 - (double)autoLockTime;
 - (double)autoDimTime;
 - (BOOL)suppressesNotifications;
-- (double)accelerometerSampleInterval;
-- (void)setAccelerometerSampleInterval:(double)arg1;
+- (NSTimeInterval)accelerometerSampleInterval;
+- (void)setAccelerometerSampleInterval:(NSTimeInterval)arg1;
 - (BOOL)orientationChangedEventsEnabled;
 - (void)setOrientationChangedEventsEnabled:(BOOL)arg1;
 - (BOOL)allowsEventOnlySuspension;
-- (int)statusBarStyle;
+- (NSInteger)statusBarStyle;
 @end
 

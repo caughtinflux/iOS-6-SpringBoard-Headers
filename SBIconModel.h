@@ -4,7 +4,7 @@
  *     class-dump is Copyright (C) 1997-1998, 2000-2001, 2004-2011 by Steve Nygard.
  */
 
-#import "NSObject.h"
+#import <Foundation/NSObject.h>
 
 @class NSDictionary, NSMutableDictionary, NSSet, SBNewsstandIcon, SBPrintStatusIcon, SBRootFolder;
 
@@ -19,8 +19,8 @@
     SBRootFolder *_rootFolder;
     SBNewsstandIcon *_newsstandIcon;
     SBPrintStatusIcon *_printStatusIcon;
-    id <SBIconModelStore> _store;
-    id <SBIconModelDelegate> _delegate;
+    // id <SBIconModelStore> _store;
+    // id <SBIconModelDelegate> _delegate;
     BOOL _allowsSaving;
 }
 
@@ -29,7 +29,7 @@
 + (id)_modernIconListForList:(id)arg1;
 + (id)_modernIconCellForCell:(id)arg1;
 + (id)_migrateLeafIdentifierIfNecessary:(id)arg1;
-@property(nonatomic) id <SBIconModelDelegate> delegate; // @synthesize delegate=_delegate;
+// @property(nonatomic) id <SBIconModelDelegate> delegate; // @synthesize delegate=_delegate;
 @property(nonatomic) BOOL allowsSaving; // @synthesize allowsSaving=_allowsSaving;
 @property(retain, nonatomic) NSDictionary *leafIconsByIdentifier; // @synthesize leafIconsByIdentifier=_leafIconsByIdentifier;
 - (BOOL)importState:(id)arg1;
@@ -71,7 +71,7 @@
 - (id)_iconState;
 - (id)iconState;
 - (id)applicationIconForDisplayIdentifier:(id)arg1;
-- (id)leafIconForIdentifier:(id)arg1;
+- (NSString *)leafIconForIdentifier:(NSString *)arg1;
 - (id)expectedIconForDisplayIdentifier:(id)arg1;
 - (id)_applicationIcons;
 - (id)leafIcons;

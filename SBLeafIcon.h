@@ -6,7 +6,7 @@
 
 #import "SBIcon.h"
 
-#import "NSCopying-Protocol.h"
+#import <Foundation/Foundation.h>
 
 @class NSString;
 

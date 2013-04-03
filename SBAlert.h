@@ -4,7 +4,7 @@
  *     class-dump is Copyright (C) 1997-1998, 2000-2001, 2004-2011 by Steve Nygard.
  */
 
-#import "NSObject.h"
+#import <Foundation/NSObject.h>
 
 #import "SBDisplayProtocol-Protocol.h"
 
@@ -31,8 +31,10 @@
 + (void)test;
 + (id)alertWindow;
 + (void)registerForAlerts;
+
 @property(nonatomic) BOOL SEO; // @synthesize SEO=_SEO;
 @property(copy, nonatomic) SBActivationContext *activationContext; // @synthesize activationContext=_activationContext;
+
 - (BOOL)suppressesNotifications;
 - (void)handleAutoLock;
 - (BOOL)handleHeadsetButtonPressed:(BOOL)arg1;

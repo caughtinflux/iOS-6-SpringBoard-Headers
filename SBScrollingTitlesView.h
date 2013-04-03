@@ -4,9 +4,14 @@
  *     class-dump is Copyright (C) 1997-1998, 2000-2001, 2004-2011 by Steve Nygard.
  */
 
-#import <Foundation/NSObject.h>
+#import "MPScrollingTitlesView.h"
 
-@protocol SBIconViewObserver <NSObject>
-- (void)iconViewDidChangeLocation:(id)arg1;
+@interface SBScrollingTitlesView : MPScrollingTitlesView
+{
+}
+
+- (id)_newTitleLabel;
+- (id)_newArtistAlbumLabel;
+
 @end
 

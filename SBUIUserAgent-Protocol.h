@@ -4,7 +4,7 @@
  *     class-dump is Copyright (C) 1997-1998, 2000-2001, 2004-2011 by Steve Nygard.
  */
 
-#import "NSObject-Protocol.h"
+#import <Foundation/NSObject.h>
 
 @protocol SBUIUserAgent <NSObject>
 - (void)setMinimumBacklightLevel:(float)arg1 animated:(BOOL)arg2;
@@ -42,6 +42,7 @@
 - (void)openURL:(id)arg1 animateIn:(BOOL)arg2 scale:(float)arg3 start:(double)arg4 duration:(float)arg5 animateOut:(BOOL)arg6;
 - (BOOL)openURL:(id)arg1 allowUnlock:(BOOL)arg2 animated:(BOOL)arg3;
 - (BOOL)canUserLaunchIcon;
+- (BOOL)alertIsActive;
 - (BOOL)springBoardIsActive;
 - (id)createWallpaperView:(int)arg1;
 - (BOOL)homeScreenIsDisplayingWallpaper;

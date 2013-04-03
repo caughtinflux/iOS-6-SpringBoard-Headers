@@ -4,14 +4,12 @@
  *     class-dump is Copyright (C) 1997-1998, 2000-2001, 2004-2011 by Steve Nygard.
  */
 
-#import <Foundation/NSObject.h>
-
-#import "SBDisplayProtocol-Protocol.h"
-#import "SBSystemLocalNotificationAlertDelegate-Protocol.h"
+#import <Foundation/Foundation.h>
+#import <CoreGraphics/CoreGraphics.h>
 
 @class BKSCFBundle, BKSMachSendRight, BKSProcessAssertion, NSArray, NSDate, NSDictionary, NSHashTable, NSMapTable, NSMutableSet, NSSet, NSString, NSTimer, PCPersistentTimer, SBActivationContext, SBAppContextHostManager, SBDefaultImageInfo, UIColor, UILocalNotification, UIRemoteApplication;
 
-@interface SBApplication : NSObject <SBSystemLocalNotificationAlertDelegate, SBDisplayProtocol>
+@interface SBApplication : NSObject // <SBSystemLocalNotificationAlertDelegate, SBDisplayProtocol>
 {
     NSString *_bundleIdentifier;
     NSString *_displayIdentifier;
@@ -25,7 +23,7 @@
     BKSMachSendRight *_xpcEventPort;
     int _activationState;
     int _lastExitType;
-    double _modificationDate;
+    NSTimeInterval _modificationDate;
     int _pid;
     SBAppContextHostManager *_contextHostManager;
     NSString *_displayName;
@@ -87,10 +85,7 @@
     NSMutableSet *_requireLocalNotificationsCachingReasons;
     NSArray *_cachedLocalNotifications;
     unsigned int _applicationState;
-    struct _opaque_pthread_mutex_t /*{
-        long __sig;
-        char __opaque[40];
-    } */_appBundleMutex;
+    struct _opaque_pthread_mutex_t _appBundleMutex;
     NSDate *_nextApplicationWakeDate;
     PCPersistentTimer *_applicationWakeTimer;
     PCPersistentTimer *_localNotificationTimer;
@@ -111,7 +106,7 @@
     unsigned int _defaultImageInfoCount;
     SBDefaultImageInfo *_defaultImageInfo;
     NSMutableSet *_suppressVolumeHudCategories;
-    float _accelerometerSampleInterval;
+    CGFloat _accelerometerSampleInterval;
     NSMutableSet *_idleTimerDisabledReasons;
     unsigned int _expectsFaceContact:1;
     unsigned int _expectsFaceContactInLandscape:1;
@@ -123,7 +118,7 @@
     unsigned int _isAnimatingDeactivation:1;
     unsigned int _showsProgress;
     int _applicationRestorationCheckState;
-    float _minimumBrightnessLevel;
+    CGFloat _minimumBrightnessLevel;
     NSArray *_domainsToPreheat;
 }
 
@@ -138,9 +133,12 @@
 + (void)setCachedSnapshotSurface:(void *)arg1 forPath:(id)arg2;
 + (void *)cachedSnapshotSurfaceForPath:(id)arg1;
 + (id)systemSnapshotsDirectory;
+
 @property(retain, nonatomic) BKSMachSendRight *xpcEventPort; // @synthesize xpcEventPort=_xpcEventPort;
 @property(readonly, nonatomic) int pid; // @synthesize pid=_pid;
 @property(copy) NSString *displayIdentifier; // @synthesize displayIdentifier=_displayIdentifier;
+@property(copy, nonatomic) SBActivationContext *activationContext;
+
 - (id)domainsToPreheat;
 - (id)deactivationSettingsDescription;
 - (id)descriptionForDeactivationSetting:(unsigned int)arg1;
@@ -203,7 +201,6 @@
 - (void)setDisplaySetting:(unsigned int)arg1 value:(id)arg2;
 - (void)setDisplaySetting:(unsigned int)arg1 flag:(BOOL)arg2;
 - (void)clearDisplaySettings;
-@property(copy, nonatomic) SBActivationContext *activationContext;
 - (id)_newFlagTable;
 - (id)_newValueTable;
 - (id)urlScheme;
@@ -377,7 +374,7 @@
 - (void)flushSnapshots;
 - (id)appSnapshotPath;
 - (id)customSpotlightIconPathsForKey:(id)arg1;
-//- (void)validateSystemProvisioningEntitlements:(CDStruct_6ad76789 *)arg1;
+//- (void)validateSystemProvisioningEntitlements:(CDStruct_6ad76789 *)arg1; // this is an MIS<Something> struct.
 - (BOOL)isLaunchableDuringSetup;
 - (BOOL)hasGameCenterData;
 - (BOOL)isNowRecordingApplication;

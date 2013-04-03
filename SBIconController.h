@@ -4,19 +4,20 @@
  *     class-dump is Copyright (C) 1997-1998, 2000-2001, 2004-2011 by Steve Nygard.
  */
 
-#import "NSObject.h"
+#import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
 
-#import "BBObserverDelegate-Protocol.h"
-#import "SBIconIndexNodeObserver-Protocol.h"
-#import "SBIconListPageControlDelegate-Protocol.h"
-#import "SBIconModelDelegate-Protocol.h"
-#import "SBIconViewDelegate-Protocol.h"
-#import "SBIconViewMapDelegate-Protocol.h"
-#import "UIScrollViewDelegate-Protocol.h"
+//#import "BBObserverDelegate-Protocol.h"
+//#import "SBIconIndexNodeObserver-Protocol.h"
+//#import "SBIconListPageControlDelegate-Protocol.h"
+//#import "SBIconModelDelegate-Protocol.h"
+//#import "SBIconViewDelegate-Protocol.h"
+//#import "SBIconViewMapDelegate-Protocol.h"
+//#import "UIScrollViewDelegate-Protocol.h"
 
-@class BBObserver, NSIndexPath, NSMutableArray, NSMutableSet, NSObject<OS_dispatch_queue>, NSString, NSTimer, SBDockIconListView, SBFolder, SBFolderScrollOffset, SBFolderSlidingView, SBFolderView, SBIcon, SBIconListPageControl, SBIconListView, SBIconModel, SBIconScrollView, SBLeafIcon, SBRootFolder, SBSearchController, SBSearchView, SBWallpaperNotchView, TPLCDTextView, UITouch, UIView;
+@class BBObserver, NSIndexPath, NSMutableArray, NSMutableSet, NSString, NSTimer, SBDockIconListView, SBFolder, SBFolderScrollOffset, SBFolderSlidingView, SBFolderView, SBIcon, SBIconListPageControl, SBIconListView, SBIconModel, SBIconScrollView, SBLeafIcon, SBRootFolder, SBSearchController, SBSearchView, SBWallpaperNotchView, TPLCDTextView, UITouch, UIView;
 
-@interface SBIconController : NSObject <SBIconListPageControlDelegate, BBObserverDelegate, UIScrollViewDelegate, SBIconViewDelegate, SBIconIndexNodeObserver, SBIconModelDelegate, SBIconViewMapDelegate>
+@interface SBIconController : NSObject // <SBIconListPageControlDelegate, BBObserverDelegate, UIScrollViewDelegate, SBIconViewDelegate, SBIconIndexNodeObserver, SBIconModelDelegate, SBIconViewMapDelegate>
 {
     SBIconModel *_iconModel;
     SBRootFolder *_rootFolder;
@@ -91,7 +92,7 @@
     BOOL _isAnimatingDockFade;
     BOOL _isAnimatingFolderCreation;
     BOOL _isAnimatingForUnscatter;
-    NSObject<OS_dispatch_queue> *_folderIconLoadingBackgroundQueue;
+    // NSObject<OS_dispatch_queue> *_folderIconLoadingBackgroundQueue;
     unsigned int _maxIconViewsInHierarchy;
     unsigned int _maxNewsstandItemViewsInHierarchy;
 }
@@ -194,7 +195,7 @@
 - (BOOL)isAnimatingForUnscatter;
 - (void)finishedUnscatteringSearchView;
 - (void)finishedUnscatteringIconList:(id)arg1;
-- (void)_finishedUnscattering;
+- (void)_finishedUnscatteringWithIconScroll:(BOOL)arg1;
 - (void)unscatterWithDuration:(double)arg1 delay:(double)arg2 fade:(BOOL)arg3;
 - (void)unscatterWithDuration:(double)arg1 delay:(double)arg2;
 - (void)scatterWithDuration:(double)arg1 delay:(double)arg2 fade:(BOOL)arg3;
@@ -259,7 +260,7 @@
 - (void)_iconVisibilityChanged:(id)arg1;
 - (void)_resetRootIconLists;
 - (id)homeScreenSnapshotInOrientation:(int)arg1;
-- (CDStruct_968775f8)statusBarOverridesForSnapshot;
+// - (CDStruct_968775f8)statusBarOverridesForSnapshot;
 - (void)_prepareToResetRootIconLists;
 - (void)_popDisableUpdateCurrentIconListCount;
 - (void)_pushDisableUpdateCurrentIconListCount;
@@ -275,15 +276,15 @@
 - (id)_dockContainerViewWithOrientation:(int)arg1 contentView:(id)arg2 dock:(id)arg3 pageControl:(id)arg4;
 - (void)dealloc;
 - (void)_configureBBObserver;
-- (id)model;
+- (SBIconModel *)model;
 - (id)init;
 - (void)_runFolderOpenCloseTest;
 - (void)updateSlidingViewWithIcon:(id)arg1 fromListView:(id)arg2;
-- (void)_placeIcon:(id)arg1 inSlidingViewsWithNotchInfo:(CDStruct_d18cc6b1)arg2;
+// - (void)_placeIcon:(id)arg1 inSlidingViewsWithNotchInfo:(CDStruct_d18cc6b1)arg2;
 - (void)_computeUpperTransform:(struct CGAffineTransform *)arg1 lowerTransform:(struct CGAffineTransform *)arg2 notchTransform:(struct CGAffineTransform *)arg3 forFolderIcon:(id)arg4;
 - (unsigned int)_folderRowsForFolder:(id)arg1;
 - (unsigned int)_folderRowsForFolder:(id)arg1 inOrientation:(int)arg2;
-- (CDStruct_d18cc6b1)_notchInfoForFolderIcon:(id)arg1;
+// - (CDStruct_d18cc6b1)_notchInfoForFolderIcon:(id)arg1;
 - (struct CGRect)_contentViewRelativeFrameForIcon:(id)arg1;
 - (id)_ghostedIconListForRequester:(int)arg1;
 - (id)_iconsOnGhostedListForRequester:(int)arg1 skippingIcon:(id)arg2;
@@ -295,7 +296,7 @@
 - (void)_clearFolderViewAndSlidingViews;
 - (void)dismissFolderKeyboard;
 - (void)shiftFolderViewsForKeyboardAppearing:(BOOL)arg1 keyboardHeight:(float)arg2;
-- (void)_positionFolderViewAndSlidingViewsForFolder:(id)arg1 notchInfo:(CDStruct_d18cc6b1)arg2;
+//- (void)_positionFolderViewAndSlidingViewsForFolder:(id)arg1 notchInfo:(CDStruct_d18cc6b1)arg2;
 - (void)_insertFolderViewAndSlidingViewsForFolder:(id)arg1;
 - (void)cleanUpFolderAndSlidingViewsAfterRotation;
 - (void)_folderRotationIconFadeAnimationDidStop:(id)arg1 finished:(id)arg2 context:(id)arg3;

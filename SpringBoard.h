@@ -4,12 +4,11 @@
  *     class-dump is Copyright (C) 1997-1998, 2000-2001, 2004-2011 by Steve Nygard.
  */
 
-#import "UIApplication.h"
-
+#import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
 #import "MCProfileConnectionObserver-Protocol.h"
-#import "UIApplicationDelegate-Protocol.h"
 
-@class NSDate, NSMutableArray, NSMutableSet, NSNumberFormatter, NSObject<OS_dispatch_source>, NSSet, NSTimer, SBAppContextHostManager, SBApplication, SBUIController, UIWindow;
+@class SBAppContextHostManager, SBApplication, SBUIController;
 
 @interface SpringBoard : UIApplication <MCProfileConnectionObserver, UIApplicationDelegate>
 {
@@ -66,7 +65,7 @@
     SBAppContextHostManager *_springBoardContextHostManager;
     UIWindow *_springBoardContextHostWindow;
     NSMutableSet *_idleTimerDisabledReasons;
-    NSObject<OS_dispatch_source> *_memoryPressureSource;
+    // NSObject<OS_dispatch_source> *_memoryPressureSource;
     unsigned int _memoryPressureStatus;
     NSMutableArray *_blocksAwaitingAvailableMemory;
 }
@@ -283,7 +282,6 @@
 - (void)goToSpotlight:(BOOL)arg1;
 - (BOOL)isMenuDoubleTapAllowed;
 - (void)setAppDisabledNowPlayingHUD:(BOOL)arg1 bundleIdentifier:(id)arg2;
-- (BOOL)canShowNowPlayingControls;
 - (BOOL)canShowLockScreenCameraGrabber;
 - (BOOL)lockScreenCameraSupported;
 - (BOOL)canShowLockScreenHUDControls;
@@ -333,9 +331,6 @@
 - (void)_retryLaunchTestWithOptions:(id)arg1;
 - (BOOL)runTest:(id)arg1 options:(id)arg2;
 - (void)_alertSheetStackChanged;
-
-// Remaining properties
-@property(retain, nonatomic) UIWindow *window;
 
 @end
 

@@ -4,13 +4,11 @@
  *     class-dump is Copyright (C) 1997-1998, 2000-2001, 2004-2011 by Steve Nygard.
  */
 
-#import "NSObject.h"
-
-#import "RadiosPreferencesDelegate-Protocol.h"
+#import <Foundation/NSObject.h>
 
 @class NSString, NSTimer, RadiosPreferences, SBAlertItem;
 
-@interface SBTelephonyManager : NSObject <RadiosPreferencesDelegate>
+@interface SBTelephonyManager : NSObject
 {
     NSString *_cachedCTRegistrationStatus;
     BOOL _emergencyCallsOnly;
@@ -42,6 +40,8 @@
     int _wantsToHideDataIndicators;
     int _modemDataConnectionType;
     BOOL _modemDataConnectionTypeIsKnown;
+    BOOL _fallingBackToCellular;
+    struct tcp_connection_fallback_watch_s *_cellularFallbackWatcher;
 }
 
 + (id)sharedTelephonyManagerCreatingIfNecessary:(BOOL)arg1;
@@ -157,7 +157,7 @@
 - (double)inCallDuration;
 - (void)updateTTYIndicator;
 - (void)SBTelephonyDaemonRestartHandler;
-- (void)_serverConnectionDidError:(CDStruct_1ef3fb1f)arg1;
+// - (void)_serverConnectionDidError:(CDStruct_1ef3fb1f)arg1;
 - (void)_avSystemControllerDidError:(id)arg1;
 - (struct __CTServerConnection *)_serverConnection;
 - (void)_performQueryInBackground:(id)arg1 withMainQueueResultHandler:(void)arg2;

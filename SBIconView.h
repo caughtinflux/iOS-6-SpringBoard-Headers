@@ -4,7 +4,7 @@
  *     class-dump is Copyright (C) 1997-1998, 2000-2001, 2004-2011 by Steve Nygard.
  */
 
-#import "UIView.h"
+#import <UIKit/UIView.h>
 
 #import "SBIconObserver-Protocol.h"
 
@@ -13,8 +13,8 @@
 @interface SBIconView : UIView <SBIconObserver>
 {
     SBIcon *_icon;
-    id <SBIconViewDelegate> _delegate;
-    id <SBIconViewObserver> _observer;
+    // id <SBIconViewDelegate> _delegate;
+    // id <SBIconViewObserver> _observer;
     SBIconImageContainerView *_iconImageContainer;
     SBIconImageView *_iconImageView;
     UIImageView *_iconDarkeningOverlay;
@@ -59,8 +59,8 @@
 + (struct CGSize)_maxLabelSize;
 + (struct CGSize)defaultIconImageSize;
 + (struct CGSize)defaultIconSize;
-@property id <SBIconViewObserver> observer; // @synthesize observer=_observer;
-@property id <SBIconViewDelegate> delegate; // @synthesize delegate=_delegate;
+// @property id <SBIconViewObserver> observer; // @synthesize observer=_observer;
+// @property id <SBIconViewDelegate> delegate; // @synthesize delegate=_delegate;
 - (void)iconLaunchEnabledDidChange:(id)arg1;
 - (void)iconAccessoriesDidUpdate:(id)arg1;
 - (void)iconImageDidUpdate:(id)arg1;
@@ -146,7 +146,7 @@
 - (void)updateLabel;
 - (void)positionLabel;
 - (void)setLabelHidden:(BOOL)arg1;
-- (id)iconImageView;
+- (SBIconImageView *)iconImageView;
 - (void)setIconLabelAlpha:(float)arg1;
 - (void)setIconImageAlpha:(float)arg1;
 - (id)reflectedIconWithBrightness:(float)arg1;
@@ -157,8 +157,9 @@
 - (void)positionIconImageView;
 - (void)setLocation:(int)arg1;
 - (int)location;
-- (void)setIcon:(id)arg1;
-@property(readonly) SBIcon *icon;
+- (void)setIcon:(SBIcon *)icon;
+- (SBIcon *)icon;
+// @property(readonly) id *icon; // SBIcon *icon
 - (void)dealloc;
 - (id)initWithDefaultSize;
 

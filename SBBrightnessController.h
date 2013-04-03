@@ -4,7 +4,7 @@
  *     class-dump is Copyright (C) 1997-1998, 2000-2001, 2004-2011 by Steve Nygard.
  */
 
-#import "NSObject.h"
+#import <Foundation/NSObject.h>
 
 @interface SBBrightnessController : NSObject
 {
@@ -15,7 +15,7 @@
 
 + (id)sharedBrightnessController;
 - (void)cancelBrightnessEvent;
-- (void)handleBrightnessEvent:(struct __GSEvent *)arg1;
+// - (void)handleBrightnessEvent:(struct __GSEvent *)arg1;
 - (void)decreaseBrightnessAndRepeat;
 - (void)increaseBrightnessAndRepeat;
 - (void)setBrightnessLevel:(float)arg1;
