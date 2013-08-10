@@ -6,17 +6,19 @@
 
 #import "SBIconModelPropertyListFileStore.h"
 
+@class NSError;
+
 @interface SBDefaultIconModelStore : SBIconModelPropertyListFileStore
 {
 }
 
 + (id)sharedInstance;
-- (void)_deleteLegacyState;
-- (id)loadDesiredIconState:(id *)arg1;
-- (BOOL)saveDesiredIconState:(id)arg1 error:(id *)arg2;
-- (BOOL)deleteDesiredIconState:(id *)arg1;
+
 - (id)loadCurrentIconState:(id *)arg1;
-- (id)init;
+- (id)loadDesiredIconState:(id *)arg1;
+- (BOOL)saveDesiredIconState:(id)arg1 error:(NSError **)error;
+- (BOOL)deleteDesiredIconState:(id *)arg1;
+- (void)_deleteLegacyState;
 
 @end
 

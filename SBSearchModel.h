@@ -4,9 +4,8 @@
  *     class-dump is Copyright (C) 1997-1998, 2000-2001, 2004-2011 by Steve Nygard.
  */
 
-#import "SPSearchAgent.h"
-
-#import "SPDaemonQueryDelegate-Protocol.h"
+#import <Search/SPSearchAgent.h>
+#import <Search/SPDaemonQueryDelegate-Protocol.h>
 
 @class CPLRUDictionary, NSDate, NSObject<OS_dispatch_semaphore>, NSTimer;
 

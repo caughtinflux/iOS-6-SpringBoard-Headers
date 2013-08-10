@@ -25,7 +25,7 @@
 @property(nonatomic) double duration; // @synthesize duration=m_duration;
 @property(copy, nonatomic) NSArray *animatingSubviews; // @synthesize animatingSubviews=m_animatingSubviews;
 @property(retain, nonatomic) UIView *view; // @synthesize view=m_view;
-@property(nonatomic) id delegate; // @synthesize delegate=m_delegate;
+@property(nonatomic, assign) id delegate; // @synthesize delegate=m_delegate;
 - (void)updateFinishBackwardToStart:(id)arg1;
 - (void)finishBackwardToStart;
 - (void)finishForwardToEnd;

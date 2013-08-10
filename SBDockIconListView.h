@@ -5,28 +5,32 @@
  */
 
 #import "SBIconListView.h"
+#import <UIKit/UIKit.h>
+
+@class SBIconViewMap;
 
 @interface SBDockIconListView : SBIconListView
 {
 }
 
-+ (id)backgroundImageForOrientation:(int)arg1;
-+ (unsigned int)iconRowsForInterfaceOrientation:(int)arg1;
-+ (unsigned int)iconColumnsForInterfaceOrientation:(int)arg1;
-- (unsigned int)columnAtPoint:(struct CGPoint)arg1;
-- (struct CGPoint)originForIconAtX:(unsigned int)arg1 Y:(unsigned int)arg2;
-- (float)_additionalSideInsetToCenterIcons;
-- (float)sideIconInset;
-- (unsigned int)rowAtPoint:(struct CGPoint)arg1;
-- (float)topIconInset;
-- (unsigned int)iconsInRowForSpacingCalculation;
-- (int)visibleIconsInDock;
-- (void)setOrientation:(int)arg1 duration:(double)arg2;
-- (void)setOrientation:(int)arg1;
++ (UIImage *)backgroundImageForOrientation:(UIInterfaceOrientation)arg1;
++ (NSUInteger)iconRowsForInterfaceOrientation:(int)arg1;
++ (NSUInteger)iconColumnsForInterfaceOrientation:(int)arg1;
+- (NSUInteger)columnAtPoint:(CGPoint)arg1;
+- (CGPoint)originForIconAtX:(NSUInteger)arg1 Y:(NSUInteger)arg2;
+- (CGFloat)_additionalSideInsetToCenterIcons;
+- (CGFloat)sideIconInset;
+- (NSUInteger)rowAtPoint:(CGPoint)arg1;
+- (CGFloat)topIconInset;
+- (NSUInteger)iconsInRowForSpacingCalculation;
+- (NSInteger)visibleIconsInDock;
+- (void)setOrientation:(UIInterfaceOrientation)arg1 duration:(NSTimeInterval)arg2;
+- (void)setOrientation:(UIInterfaceOrientation)arg1;
 - (BOOL)_shouldAnimatePropertyWithKey:(id)arg1;
-- (void)_updateForOrientation:(int)arg1 duration:(double)arg2;
-- (id)initWithFrame:(struct CGRect)arg1 viewMap:(id)arg2;
-- (id)initForOrientation:(int)arg1 viewMap:(id)arg2;
+- (void)_updateForOrientation:(UIInterfaceOrientation)arg1 duration:(NSTimeInterval)arg2;
+
+- (id)initWithFrame:(CGRect)arg1 viewMap:(id)arg2;
+- (id)initForOrientation:(UIInterfaceOrientation)arg1 viewMap:(SBIconViewMap *)arg2;
 
 @end
 

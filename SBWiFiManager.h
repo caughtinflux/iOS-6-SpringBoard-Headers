@@ -4,9 +4,7 @@
  *     class-dump is Copyright (C) 1997-1998, 2000-2001, 2004-2011 by Steve Nygard.
  */
 
-#import "NSObject.h"
-
-@class NSObject<OS_dispatch_source>, NSRecursiveLock, NSString;
+#import <Foundation/Foundation.h>
 
 @interface SBWiFiManager : NSObject
 {
@@ -33,6 +31,11 @@
     BOOL _isPrimaryInterfaceChanging;
 }
 
+typedef struct __WiFiManagerClient WiFiManagerClient;
+typedef WiFiManagerClient *WiFiManagerClientRef;
+
+typedef struct __WiFiDeviceClient *WiFiDeviceClientRef;
+
 + (id)sharedInstance;
 - (void)_primaryInterfaceChanged:(BOOL)arg1;
 - (id)_wifiInterface;
@@ -55,8 +58,8 @@
 - (void)_linkDidChange;
 - (void)_powerStateDidChange;
 - (void)_updateWiFiState;
-- (struct __WiFiManagerClient *)_manager;
-- (void)_setWiFiDevice:(struct __WiFiDeviceClient *)arg1;
+- (WiFiManagerClientRef)_manager;
+- (void)_setWiFiDevice:(WiFiDeviceClientRef)arg1;
 - (id)init;
 
 @end

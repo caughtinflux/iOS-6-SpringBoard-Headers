@@ -4,7 +4,7 @@
  *     class-dump is Copyright (C) 1997-1998, 2000-2001, 2004-2011 by Steve Nygard.
  */
 
-#import "NSArray.h"
+#import <Foundation/Foundation.h>
 
 @interface NSArray (AlertItemsAdditions)
 - (void)addObjectsOfClass:(Class)arg1 toArray:(id)arg2;

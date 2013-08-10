@@ -5,16 +5,25 @@
  */
 
 #import <UIKit/UIView.h>
+#import <QuartzCore/QuartzCore.h>
 
 #import "SBIconObserver-Protocol.h"
+#import "SBIconViewDelegate-Protocol.h"
+#import "SBIconViewObserver-Protocol.h"
+
+typedef enum {
+    SBIconViewLocationHomeScreen = 0,
+    SBIconViewLocationDock       = 1,
+    SBIconViewLocationSwitcher   = 2
+} SBIconViewLocation;
 
 @class NSTimer, SBIcon, SBIconAccessoryImageView, SBIconImageContainerView, SBIconImageView, SBIconLabelImageView, UIImage, UIImageView;
 
 @interface SBIconView : UIView <SBIconObserver>
 {
     SBIcon *_icon;
-    // id <SBIconViewDelegate> _delegate;
-    // id <SBIconViewObserver> _observer;
+    id<SBIconViewDelegate> _delegate;
+    id<SBIconViewObserver> _observer;
     SBIconImageContainerView *_iconImageContainer;
     SBIconImageView *_iconImageView;
     UIImageView *_iconDarkeningOverlay;
@@ -27,27 +36,27 @@
     UIView *_closeBox;
     int _closeBoxType;
     UIImageView *_dropGlow;
-    unsigned int _drawsLabel:1;
-    unsigned int _isGrabbed:1;
-    unsigned int _isOverlapping:1;
-    unsigned int _refusesRecipientStatus:1;
-    unsigned int _highlighted:1;
-    unsigned int _launchDisabled:1;
-    unsigned int _isJittering:1;
-    unsigned int _allowJitter:1;
-    unsigned int _touchDownInIcon:1;
-    unsigned int _hideShadow:1;
+    NSUInteger _drawsLabel:1;
+    NSUInteger _isGrabbed:1;
+    NSUInteger _isOverlapping:1;
+    NSUInteger _refusesRecipientStatus:1;
+    NSUInteger _highlighted:1;
+    NSUInteger _launchDisabled:1;
+    NSUInteger _isJittering:1;
+    NSUInteger _allowJitter:1;
+    NSUInteger _touchDownInIcon:1;
+    NSUInteger _hideShadow:1;
     NSTimer *_delayedUnhighlightTimer;
-    unsigned int _ghostlyRequesters;
-    int _iconLocation;
-    float _iconImageAlpha;
-    float _iconImageBrightness;
-    float _iconLabelAlpha;
-    float _accessoryAlpha;
-    struct CGPoint _unjitterPoint;
-    struct CGPoint _grabPoint;
+    NSUInteger _ghostlyRequesters;
+    SBIconViewLocation _iconLocation;
+    CGFloat _iconImageAlpha;
+    CGFloat _iconImageBrightness;
+    CGFloat _iconLabelAlpha;
+    CGFloat _accessoryAlpha;
+    CGPoint _unjitterPoint;
+    CGPoint _grabPoint;
     NSTimer *_longPressTimer;
-    unsigned int _ghostlyTag;
+    NSUInteger _ghostlyTag;
     UIImage *_ghostlyImage;
     BOOL _ghostlyPending;
 }
@@ -56,15 +65,23 @@
 + (id)_jitterPositionAnimation;
 + (id)_labelImageParametersForIcon:(id)arg1 location:(int)arg2;
 + (Class)_labelImageParametersClassForIcon:(id)arg1 location:(int)arg2;
-+ (struct CGSize)_maxLabelSize;
-+ (struct CGSize)defaultIconImageSize;
-+ (struct CGSize)defaultIconSize;
-// @property id <SBIconViewObserver> observer; // @synthesize observer=_observer;
-// @property id <SBIconViewDelegate> delegate; // @synthesize delegate=_delegate;
++ (CGSize)_maxLabelSize;
++ (CGSize)defaultIconImageSize;
++ (CGSize)defaultIconSize;
+
+@property(nonatomic, assign) id<SBIconViewObserver> observer; // @synthesize observer=_observer;
+@property(nonatomic, assign) id<SBIconViewDelegate> delegate; // @synthesize delegate=_delegate;
+@property(nonatomic, assign, getter = isHighlighted) BOOL highlighted;
+@property(nonatomic, assign) SBIconViewLocation location;
+@property(nonatomic, retain) SBIcon *icon;
+
+- (void)dealloc;
+- (id)initWithDefaultSize;
+
 - (void)iconLaunchEnabledDidChange:(id)arg1;
 - (void)iconAccessoriesDidUpdate:(id)arg1;
 - (void)iconImageDidUpdate:(id)arg1;
-- (struct CGRect)defaultFrameForProgressBar;
+- (CGRect)defaultFrameForProgressBar;
 - (void)prepareForRecycling;
 - (id)createShadowImageView;
 - (int)_delegateCloseBoxType;
@@ -74,8 +91,8 @@
 - (void)_updateShadowFrame;
 - (void)_updateShadowFrameForShadow:(id)arg1;
 - (void)setShadowsHidden:(BOOL)arg1;
-- (struct UIEdgeInsets)snapshotEdgeInsets;
-- (BOOL)pointInside:(struct CGPoint)arg1 withEvent:(id)arg2;
+- (UIEdgeInsets)snapshotEdgeInsets;
+- (BOOL)pointInside:(CGPoint)arg1 withEvent:(id)arg2;
 - (void)closeBoxTapped;
 - (BOOL)isShowingCloseBox;
 - (void)setShowsCloseBox:(BOOL)arg1 animated:(BOOL)arg2;
@@ -94,7 +111,7 @@
 - (int)ghostlyRequesters;
 - (BOOL)isGhostly;
 - (void)removeGhostlyImageView;
-- (void)setPartialGhostly:(float)arg1 requester:(int)arg2;
+- (void)setPartialGhostly:(CGFloat)arg1 requester:(int)arg2;
 - (void)setGhostly:(BOOL)arg1 requester:(int)arg2;
 - (void)prepareGhostlyImageView;
 - (void)prepareGhostlyImage;
@@ -106,20 +123,20 @@
 - (void)removeDropGlow;
 - (void)showDropGlow:(BOOL)arg1;
 - (void)prepareDropGlow;
-- (struct CGAffineTransform)transformToMakeDropGlowShrinkToIconSize;
+- (CGAffineTransform)transformToMakeDropGlowShrinkToIconSize;
 - (void)setIsOverlapping:(BOOL)arg1;
 - (BOOL)isGrabbed;
 - (void)setIsGrabbed:(BOOL)arg1;
 - (double)grabDurationForEvent:(id)arg1;
-- (BOOL)canReceiveGrabbedIcon:(id)arg1;
+- (BOOL)canReceiveGrabbedIcon:(SBIconView *)iconView;
 - (void)setRefusesRecipientStatus:(BOOL)arg1;
-- (void)setIconPosition:(struct CGPoint)arg1;
+- (void)setIconPosition:(CGPoint)arg1;
 - (void)removeAllIconAnimations;
 - (BOOL)allowJitter;
 - (void)setAllowJitter:(BOOL)arg1;
 - (void)setIsJittering:(BOOL)arg1;
-- (void)setFrame:(struct CGRect)arg1;
-- (float)_reflectionImageOffset;
+- (void)setFrame:(CGRect)arg1;
+- (CGFloat)_reflectionImageOffset;
 - (BOOL)showsReflection;
 - (void)updateReflection;
 - (void)_updateShadow;
@@ -127,41 +144,32 @@
 - (BOOL)isInDock;
 - (void)_delayedUnhighlight;
 - (void)setHighlighted:(BOOL)arg1 delayUnhighlight:(BOOL)arg2;
-- (void)setHighlighted:(BOOL)arg1;
-- (BOOL)isHighlighted;
 - (BOOL)delaysUnhighlightWhenTapped;
 - (BOOL)allowsTapWhileEditing;
 - (void)_updateIconBrightness;
 - (void)updateIconOverlayView;
 - (void)placeIconOverlayView;
-- (struct CGRect)frameForIconOverlay;
-- (BOOL)pointMostlyInside:(struct CGPoint)arg1 withEvent:(id)arg2;
+- (CGRect)frameForIconOverlay;
+- (BOOL)pointMostlyInside:(CGPoint)arg1 withEvent:(id)arg2;
 - (id)_automationID;
 - (void)updateBadge;
 - (void)_updateAccessoryPosition;
 - (id)_superviewForAccessoryView;
-- (struct CGRect)_frameForAccessoryView;
-- (id)_iconBoundsForAccessory:(struct CGRect *)arg1;
-- (struct UIEdgeInsets)_viewInsetsForAccessoryType:(int)arg1;
+- (CGRect)_frameForAccessoryView;
+- (id)_iconBoundsForAccessory:(CGRect *)arg1;
+- (UIEdgeInsets)_viewInsetsForAccessoryType:(int)arg1;
 - (void)updateLabel;
 - (void)positionLabel;
-- (void)setLabelHidden:(BOOL)arg1;
+- (void)setLabelHidden:(BOOL)shouldHide;
 - (SBIconImageView *)iconImageView;
-- (void)setIconLabelAlpha:(float)arg1;
-- (void)setIconImageAlpha:(float)arg1;
-- (id)reflectedIconWithBrightness:(float)arg1;
+- (void)setIconLabelAlpha:(CGFloat)arg1;
+- (void)setIconImageAlpha:(CGFloat)arg1;
+- (id)reflectedIconWithBrightness:(CGFloat)arg1;
 - (id)iconImageSnapshot:(id)arg1;
-- (id)snapshotSettings;
+- (NSDictionary *)snapshotSettings;
 - (void)setDisplayedIconImage:(id)arg1;
-- (void)applyIconImageTransform:(struct CATransform3D)arg1 duration:(float)arg2 delay:(float)arg3;
+- (void)applyIconImageTransform:(CATransform3D)arg1 duration:(CGFloat)arg2 delay:(CGFloat)arg3;
 - (void)positionIconImageView;
-- (void)setLocation:(int)arg1;
-- (int)location;
-- (void)setIcon:(SBIcon *)icon;
-- (SBIcon *)icon;
-// @property(readonly) id *icon; // SBIcon *icon
-- (void)dealloc;
-- (id)initWithDefaultSize;
 
 @end
 

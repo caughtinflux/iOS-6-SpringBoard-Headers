@@ -5,6 +5,7 @@
  */
 
 #import "SBGestureRecognizer.h"
+#import <CoreGraphics/CoreGraphics.h>
 
 @interface SBFluidSlideGestureRecognizer : SBGestureRecognizer
 {
@@ -24,8 +25,8 @@
     float _cumulativeMotionEnvelope;
     float _cumulativeMotionSkipped;
     BOOL _hasSignificantMotion;
-    struct CGPoint _movementVelocityInPointsPerSecond;
-    struct CGPoint _centroidPoint;
+    CGPoint _movementVelocityInPointsPerSecond;
+    CGPoint _centroidPoint;
 }
 
 @property(readonly, nonatomic) struct CGPoint centroidPoint; // @synthesize centroidPoint=_centroidPoint;

@@ -3,11 +3,9 @@
  *
  *     class-dump is Copyright (C) 1997-1998, 2000-2001, 2004-2011 by Steve Nygard.
  */
-
-#import "NSObject.h"
-
-#import "NSFastEnumeration-Protocol.h"
+#import <Foundation/Foundation.h>
 #import "SBIconIndexNodeObserver-Protocol.h"
+#import "SBIconIndexMutableListObserver-Protocol.h"
 
 @class NSMapTable, NSMutableArray;
 
@@ -15,12 +13,13 @@
 {
     NSMutableArray *_nodes;
     NSMapTable *_index;
-    id <SBIconIndexMutableListObserver> _observer;
+    id<SBIconIndexMutableListObserver> _observer;
 }
 
-@property(nonatomic) id <SBIconIndexMutableListObserver> observer; // @synthesize observer=_observer;
+@property(nonatomic, assign) id <SBIconIndexMutableListObserver> observer; // @synthesize observer=_observer;
+
 - (id)indexDescriptionWithPrefix:(id)arg1;
-- (unsigned int)countByEnumeratingWithState:(CDStruct_11f37819 *)arg1 objects:(id *)arg2 count:(unsigned int)arg3;
+- (NSUInteger)countByEnumeratingWithState:(NSFastEnumerationState *)state objects:(id *)stackbuf count:(NSUInteger)len;
 - (void)node:(id)arg1 didRemoveContainedNodeIdentifiers:(id)arg2;
 - (void)node:(id)arg1 didAddContainedNodeIdentifiers:(id)arg2;
 - (void)removeAllNodes;

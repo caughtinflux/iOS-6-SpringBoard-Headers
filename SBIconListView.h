@@ -4,21 +4,22 @@
  *     class-dump is Copyright (C) 1997-1998, 2000-2001, 2004-2011 by Steve Nygard.
  */
 
-#import "UIView.h"
+#import <UIKit/UIKit.h>
+#import <QuartzCore/QuartzCore.h>
 
-@class NSMutableArray, NSMutableSet, SBIcon, SBIconListModel, SBIconViewMap;
+@class NSMutableArray, NSMutableSet, SBIcon, SBIconView, SBIconListModel, SBIconViewMap;
 
 @interface SBIconListView : UIView
 {
     SBIconListModel *_model;
     SBIconViewMap *_viewMap;
-    int _orientation;
+    NSInteger _orientation;
     SBIcon *_bouncedIcon;
     NSMutableArray *_removedIcons;
     NSMutableArray *_iconContainerMatrix;
-    unsigned int _scattered:1;
-    unsigned int _needsLayout:1;
-    unsigned int _rotating:1;
+    NSUInteger _scattered:1;
+    NSUInteger _needsLayout:1;
+    NSUInteger _rotating:1;
     UIView *_fadeView;
     BOOL _iconsAreElsewhere;
     BOOL _recyclesIconViewsWhenNotShowing;
@@ -26,91 +27,94 @@
     BOOL _showingCloseBoxes;
 }
 
-+ (unsigned int)maxIcons;
-+ (unsigned int)iconColumnsForInterfaceOrientation:(int)arg1;
-+ (unsigned int)maxVisibleIconRowsInterfaceOrientation:(int)arg1;
-+ (unsigned int)iconRowsForInterfaceOrientation:(int)arg1;
++ (NSUInteger)maxIcons;
++ (NSUInteger)iconColumnsForInterfaceOrientation:(int)arg1;
++ (NSUInteger)maxVisibleIconRowsInterfaceOrientation:(int)arg1;
++ (NSUInteger)iconRowsForInterfaceOrientation:(int)arg1;
+
 - (void)cleanupAfterRotation;
-- (void)performRotationWithDuration:(double)arg1;
-- (void)prepareToRotateToInterfaceOrientation:(int)arg1;
+- (void)performRotationWithDuration:(NSTimeInterval)duration;
+- (void)prepareToRotateToInterfaceOrientation:(UIInterfaceOrientation)arg1;
 - (Class)iconRotationContainerClass;
-- (id)rotationIconContainers;
-- (unsigned int)_rotationReferenceRow;
-- (unsigned int)_postRotationFirstVisibleRow;
-- (unsigned int)_preRotationFirstVisibleRow;
-- (unsigned int)rowAtPoint:(struct CGPoint)arg1;
-- (unsigned int)columnAtPoint:(struct CGPoint)arg1;
-- (struct CGPoint)originForIconAtX:(unsigned int)arg1 Y:(unsigned int)arg2;
-- (float)verticalIconPadding;
-- (float)horizontalIconPadding;
-- (float)horizontalBumpForColumn:(unsigned int)arg1;
-- (float)sideIconInset;
-- (float)bottomIconInset;
-- (float)topIconInset;
-- (id)bouncedIcon;
-- (void)setBouncedIcon:(id)arg1;
+- (id)rotationIconContainers; // instances of -[SBIconListView iconRotationContainerClass];
+- (NSUInteger)_rotationReferenceRow;
+- (NSUInteger)_postRotationFirstVisibleRow;
+- (NSUInteger)_preRotationFirstVisibleRow;
+- (NSUInteger)rowAtPoint:(CGPoint)arg1;
+- (NSUInteger)columnAtPoint:(CGPoint)arg1;
+- (CGPoint)originForIconAtX:(NSUInteger)arg1 Y:(NSUInteger)arg2;
+- (CGFloat)verticalIconPadding;
+- (CGFloat)horizontalIconPadding;
+- (CGFloat)horizontalBumpForColumn:(NSUInteger)horizontalBump;
+- (CGFloat)sideIconInset;
+- (CGFloat)bottomIconInset;
+- (CGFloat)topIconInset;
+- (SBIcon *)bouncedIcon;
+- (void)setBouncedIcon:(SBIcon *)icon;
 - (BOOL)isDock;
-- (void)makeIconViewsPerformBlock:(id)arg1;
-- (void)makeIconsPerformBlock:(id)arg1;
-- (void)makeIconViewsPerformSelector:(SEL)arg1;
-- (void)makeIconsPerformSelector:(SEL)arg1;
+- (void)makeIconViewsPerformBlock:(void(^)(SBIconView *))block;
+- (void)makeIconsPerformBlock:(void(^)(SBIcon *))block;
+- (void)makeIconViewsPerformSelector:(SEL)selector;
+- (void)makeIconsPerformSelector:(SEL)selector;
 - (void)hideCloseBoxes;
 - (void)showCloseBoxes;
 - (void)startJittering;
 - (void)stopJittering;
-- (void)showIconImagesFromColumn:(int)arg1 toColumn:(int)arg2 totalColumns:(int)arg3 visibleIconsJitter:(BOOL)arg4;
-- (id)iconAtPoint:(struct CGPoint)arg1 index:(unsigned int *)arg2 proposedOrder:(int *)arg3 grabbedIcon:(id)arg4;
-- (id)iconAtPoint:(struct CGPoint)arg1 index:(unsigned int *)arg2;
-- (float)layoutIconsIfNeeded:(float)arg1 domino:(BOOL)arg2;
-- (struct CATransform3D)_transformForIconAtIndex:(unsigned int)arg1 inOrientation:(int)arg2;
+- (void)showIconImagesFromColumn:(NSInteger)fromCol toColumn:(NSInteger)toCol totalColumns:(NSInteger)totalCols visibleIconsJitter:(BOOL)jitterVisible;
+- (SBIcon *)iconAtPoint:(CGPoint)point index:(NSUInteger *)addrOfIndex proposedOrder:(NSInteger *)addrOfOrder grabbedIcon:(SBIcon *)icon;
+- (SBIcon *)iconAtPoint:(CGPoint)arg1 index:(NSUInteger *)addrOfIndex;
+- (CGFloat)layoutIconsIfNeeded:(CGFloat)animationDuration domino:(BOOL)domino;
+- (CATransform3D)_transformForIconAtIndex:(NSUInteger)arg1 inOrientation:(int)arg2;
 - (void)layoutIconsNow;
 - (void)setIconsNeedLayout;
 - (BOOL)recyclesIconViewsWhenNotShowing;
 - (void)setRecyclesIconViewsWhenNotShowing:(BOOL)arg1;
 - (BOOL)iconsAreElsewhere;
 - (void)setIconsAreElsewhere:(BOOL)arg1;
-- (void)setFrame:(struct CGRect)arg1;
-- (struct CGPoint)originForIcon:(id)arg1;
-- (struct CGPoint)originForIconAtIndex:(int)arg1;
-- (struct CGSize)defaultIconSize;
+- (void)setFrame:(CGRect)frame;
+- (CGPoint)originForIcon:(SBIcon *)icon;
+- (CGPoint)originForIconAtIndex:(NSInteger)index;
+- (CGSize)defaultIconSize;
 - (void)removeAllIconAnimations;
-- (void)unscatterWithDuration:(double)arg1 delay:(double)arg2;
+- (void)unscatterWithDuration:(NSTimeInterval)duration delay:(NSTimeInterval)delay;
 - (void)unscatterAnimationDidStop;
-- (void)scatterWithDuration:(double)arg1 delay:(double)arg2;
-- (void)setAlphaForAllIcons:(float)arg1;
+- (void)scatterWithDuration:(NSTimeInterval)duration delay:(NSTimeInterval)delay;
+- (void)setAlphaForAllIcons:(CGFloat)arg1;
 - (BOOL)isScattered;
-- (void)removeIcon:(id)arg1;
-- (void)removeIconAtIndex:(unsigned int)arg1;
+- (void)removeIcon:(SBIcon *)icon;
+- (void)removeIconAtIndex:(NSUInteger)arg1;
 - (id)removedIcons;
-- (id)insertIcon:(id)arg1 atIndex:(unsigned int)arg2 moveNow:(BOOL)arg3;
-- (id)insertIcon:(id)arg1 atIndex:(unsigned int)arg2 moveNow:(BOOL)arg3 pop:(BOOL)arg4;
-- (id)placeIcon:(id)arg1 atIndex:(unsigned int)arg2 moveNow:(BOOL)arg3 pop:(BOOL)arg4;
-- (void)_layoutIcon:(id)arg1 atIndex:(unsigned int)arg2 moveNow:(BOOL)arg3 pop:(BOOL)arg4;
+- (id)insertIcon:(SBIcon *)icon atIndex:(NSUInteger)arg2 moveNow:(BOOL)arg3;
+- (id)insertIcon:(SBIcon *)icon atIndex:(NSUInteger)arg2 moveNow:(BOOL)arg3 pop:(BOOL)arg4;
+- (id)placeIcon:(id)arg1 atIndex:(NSUInteger)arg2 moveNow:(BOOL)arg3 pop:(BOOL)arg4;
+- (void)_layoutIcon:(id)arg1 atIndex:(NSUInteger)arg2 moveNow:(BOOL)arg3 pop:(BOOL)arg4;
 - (void)_noteNewIconInModel:(id)arg1;
 - (void)_popIconView:(id)arg1;
 - (void)showIconAnimationDidStop:(id)arg1 didFinish:(id)arg2 iconView:(id)arg3;
-- (unsigned int)firstFreeSlotOrLastSlotIndexForType:(int)arg1;
-- (unsigned int)firstFreeSlotOrLastSlotIndex;
-- (unsigned int)firstFreeSlotIndexForType:(int)arg1;
-- (unsigned int)firstFreeSlotIndex;
+- (NSUInteger)firstFreeSlotOrLastSlotIndexForType:(int)arg1;
+- (NSUInteger)firstFreeSlotOrLastSlotIndex;
+- (NSUInteger)firstFreeSlotIndexForType:(int)arg1;
+- (NSUInteger)firstFreeSlotIndex;
 - (BOOL)isFull;
 - (BOOL)isEmpty;
-- (id)visibleIcons;
-- (id)icons;
+- (NSArray *)visibleIcons;
+- (NSArray *)icons;
 - (BOOL)compactIcons:(BOOL)arg1;
-- (unsigned int)rowForIcon:(id)arg1;
-- (void)getX:(unsigned int *)arg1 Y:(unsigned int *)arg2 forIndex:(unsigned int)arg3 forOrientation:(int)arg4;
-- (unsigned int)indexForX:(unsigned int)arg1 Y:(unsigned int)arg2 forOrientation:(int)arg3;
-- (void)setOrientation:(int)arg1;
-- (unsigned int)iconsInRowForSpacingCalculation;
-- (unsigned int)iconColumnsForCurrentOrientation;
-- (unsigned int)iconRowsForCurrentOrientation;
-- (id)viewMap;
-- (id)model;
-- (void)setModel:(id)arg1;
-- (void)dealloc;
-- (id)initWithFrame:(struct CGRect)arg1;
-- (id)initWithFrame:(struct CGRect)arg1 viewMap:(id)arg2;
+- (NSUInteger)rowForIcon:(id)arg1;
+- (void)getX:(NSUInteger *)addrOfX Y:(NSUInteger *)addrOfY forIndex:(NSUInteger)index forOrientation:(UIInterfaceOrientation)orientation;
+
+// returns NSNotFound if icon at X/Y is non-existent
+- (NSUInteger)indexForX:(NSUInteger)arg1 Y:(NSUInteger)arg2 forOrientation:(int)arg3;
+
+- (void)setOrientation:(UIInterfaceOrientation)arg1;
+- (NSUInteger)iconsInRowForSpacingCalculation;
+- (NSUInteger)iconColumnsForCurrentOrientation;
+- (NSUInteger)iconRowsForCurrentOrientation;
+- (SBIconViewMap *)viewMap;
+- (SBIconListModel *)model;
+- (void)setModel:(SBIconListModel *)arg1;
+- (instancetype)initWithFrame:(CGRect)frame;
+- (instancetype)initWithFrame:(CGRect)frame viewMap:(SBIconViewMap *)viewMap; // If viewMap is nil, an empty SBIconViewMap object is set as the view map (accessible via -[SBIconListView viewMap])
 - (Class)modelClass;
 
 @end

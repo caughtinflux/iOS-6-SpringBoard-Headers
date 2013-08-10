@@ -10,7 +10,7 @@
 #import "SBAlertManagerDelegate-Protocol.h"
 #import "SBWorkspaceTransactionDelegate-Protocol.h"
 
-@class BKSWorkspace, NSMutableArray, NSObject<OS_dispatch_source>, NSTimer, SBAlertManager, SBWorkspaceEventQueueLockAssertion, SBWorkspaceTransaction;
+@class BKSWorkspace, NSMutableArray, NSTimer, SBAlertManager, SBWorkspaceEventQueueLockAssertion, SBWorkspaceTransaction;
 
 @interface SBWorkspace : NSObject <BKSWorkspaceDelegate, SBAlertManagerDelegate, SBWorkspaceTransactionDelegate>
 {
@@ -18,14 +18,15 @@
     SBAlertManager *_alertManager;
     SBWorkspaceTransaction *_currentTransaction;
     SBWorkspaceEventQueueLockAssertion *_eventQueueLock;
-    NSObject<OS_dispatch_source> *_transactionWatchdog;
+    NSObject/*<OS_dispatch_source>*/ *_transactionWatchdog;
     NSTimer *_relaunchTimer;
     NSMutableArray *_applicationsToRelaunch;
 }
 
 @property(readonly, nonatomic) SBAlertManager *alertManager; // @synthesize alertManager=_alertManager;
 @property(readonly, nonatomic) BKSWorkspace *bksWorkspace; // @synthesize bksWorkspace=_bksWorkspace;
-@property(retain, nonatomic) SBWorkspaceTransaction *currentTransaction; // @synthesize currentTransaction=_currentTransaction;
+@property(retain, nonatomic) SBWorkspaceTransaction *currentTransaction; // @synthesize currentTransaction=_currentTransaction
+
 - (void)transactionDidFinish:(id)arg1 success:(BOOL)arg2;
 - (void)alertManager:(id)arg1 didDeactivateAlert:(id)arg2 overAlerts:(id)arg3;
 - (void)alertManager:(id)arg1 willDeactivateAlert:(id)arg2 overAlerts:(id)arg3;

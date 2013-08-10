@@ -4,7 +4,7 @@
  *     class-dump is Copyright (C) 1997-1998, 2000-2001, 2004-2011 by Steve Nygard.
  */
 
-#import "UIView.h"
+#import <UIKit/UIView.h>
 
 @class SBIcon;
 
@@ -24,7 +24,7 @@
 - (id)newSnapshot:(id)arg1 includingShadows:(BOOL)arg2;
 - (void)crossfadeWithDuration:(double)arg1 inIconList:(id)arg2;
 - (void)prepareToCrossfade;
-- (void)setOrigin:(struct CGPoint)arg1;
+- (void)setOrigin:(CGPoint)arg1;
 - (void)setStartIcon:(id)arg1 endIcon:(id)arg2 inIconList:(id)arg3 fromOrientation:(int)arg4 toOrientation:(int)arg5;
 - (void)dealloc;
 

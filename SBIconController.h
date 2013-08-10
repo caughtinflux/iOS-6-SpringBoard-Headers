@@ -7,21 +7,20 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 
-//#import "BBObserverDelegate-Protocol.h"
-//#import "SBIconIndexNodeObserver-Protocol.h"
-//#import "SBIconListPageControlDelegate-Protocol.h"
-//#import "SBIconModelDelegate-Protocol.h"
-//#import "SBIconViewDelegate-Protocol.h"
-//#import "SBIconViewMapDelegate-Protocol.h"
-//#import "UIScrollViewDelegate-Protocol.h"
+#import "BBObserverDelegate-Protocol.h"
+#import "SBIconIndexNodeObserver-Protocol.h"
+#import "SBIconListPageControlDelegate-Protocol.h"
+#import "SBIconModelDelegate-Protocol.h"
+#import "SBIconViewDelegate-Protocol.h"
+#import "SBIconViewMapDelegate-Protocol.h"
 
-@class BBObserver, NSIndexPath, NSMutableArray, NSMutableSet, NSString, NSTimer, SBDockIconListView, SBFolder, SBFolderScrollOffset, SBFolderSlidingView, SBFolderView, SBIcon, SBIconListPageControl, SBIconListView, SBIconModel, SBIconScrollView, SBLeafIcon, SBRootFolder, SBSearchController, SBSearchView, SBWallpaperNotchView, TPLCDTextView, UITouch, UIView;
+@class BBObserver, NSIndexPath, NSMutableArray, NSMutableSet, NSString, NSTimer, SBDockIconListView, SBFolder, SBFolderIconListView, SBFolderScrollOffset, SBFolderSlidingView, SBFolderView, SBIcon, SBIconListPageControl, SBIconListView, SBIconModel, SBIconContentView, SBIconScrollView, SBLeafIcon, SBRootFolder, SBSearchController, SBSearchView, SBWallpaperNotchView, TPLCDTextView, UITouch, UIView;
 
-@interface SBIconController : NSObject // <SBIconListPageControlDelegate, BBObserverDelegate, UIScrollViewDelegate, SBIconViewDelegate, SBIconIndexNodeObserver, SBIconModelDelegate, SBIconViewMapDelegate>
+@interface SBIconController : NSObject  <SBIconListPageControlDelegate, BBObserverDelegate, UIScrollViewDelegate, SBIconViewDelegate, SBIconIndexNodeObserver, SBIconModelDelegate, SBIconViewMapDelegate>
 {
     SBIconModel *_iconModel;
     SBRootFolder *_rootFolder;
-    UIView *_contentView;
+    SBIconContentView *_contentView;
     SBIconScrollView *_scrollView;
     SBIconListPageControl *_pageControl;
     NSMutableArray *_rootIconLists;
@@ -84,7 +83,7 @@
     float _searchViewAlpha;
     float _oldScrollOffset;
     UITouch *_lastTouch;
-    struct CGPoint _dragPausePoint;
+    CGPoint _dragPausePoint;
     NSTimer *_dragPauseTimer;
     NSTimer *_folderSpringloadTimer;
     BOOL _folderKeyboardIsAnimatingRotation;
@@ -92,13 +91,15 @@
     BOOL _isAnimatingDockFade;
     BOOL _isAnimatingFolderCreation;
     BOOL _isAnimatingForUnscatter;
-    // NSObject<OS_dispatch_queue> *_folderIconLoadingBackgroundQueue;
+    dispatch_queue_t _folderIconLoadingBackgroundQueue;
     unsigned int _maxIconViewsInHierarchy;
     unsigned int _maxNewsstandItemViewsInHierarchy;
 }
 
 + (id)sharedInstance;
+
 @property(readonly, nonatomic) SBSearchController *searchController; // @synthesize searchController=_searchController;
+
 - (void)observer:(id)arg1 updateSectionInfo:(id)arg2;
 - (void)_updateDisabledBadgesSetWithSections:(id)arg1;
 - (BOOL)_badgesAreDisabledForSectionInfo:(id)arg1;
@@ -174,7 +175,7 @@
 - (BOOL)isEditing;
 - (void)setIsEditing:(BOOL)arg1;
 - (void)_addEmptyListIfNecessary;
-- (void)iconWasTapped:(id)arg1;
+- (void)iconWasTapped:(SBIcon *)icon;
 - (void)_launchIcon:(id)arg1;
 - (void)scrollViewDidEndScrollingAnimation:(id)arg1;
 - (void)scrollViewDidEndDecelerating:(id)arg1;
@@ -237,14 +238,14 @@
 - (int)orientation;
 - (void)scrollToIconListAtIndex:(int)arg1 animate:(BOOL)arg2;
 - (void)scrollToIconListContainingIcon:(id)arg1 animate:(BOOL)arg2;
-- (BOOL)iconAppearsOnCurrentPage:(id)arg1;
+- (BOOL)iconAppearsOnCurrentPage:(SBIcon *)icon;
 - (BOOL)_shouldLockItemsInStoreDemoMode;
 - (BOOL)_iconCanBeGrabbed:(id)arg1;
 - (int)currentIconListIndex;
 - (BOOL)isShowingSearch;
-- (id)currentFolderIconList;
-- (id)dock;
-- (id)currentRootIconList;
+- (SBFolderIconListView *)currentFolderIconList;
+- (SBDockIconListView *)dock;
+- (SBIconListView *)currentRootIconList;
 - (void)resetCurrentVisibleIconListImageVisibilityAndJitterState;
 - (void)updateCurrentIconListIndexAndVisibility:(BOOL)arg1;
 - (void)updateCurrentIconListIndexAndVisibility;
@@ -290,8 +291,8 @@
 - (id)_iconsOnGhostedListForRequester:(int)arg1 skippingIcon:(id)arg2;
 - (id)_iconsOnGhostedListForRequester:(int)arg1;
 - (void)cleanUpGhostlyIconsForRequester:(int)arg1;
-- (void)setCurrentPageIconsPartialGhostly:(float)arg1 forRequester:(int)arg2 skipIcon:(id)arg3;
-- (void)setCurrentPageIconsGhostly:(BOOL)arg1 forRequester:(int)arg2 skipIcon:(id)arg3;
+- (void)setCurrentPageIconsPartialGhostly:(CGFloat)arg1 forRequester:(NSInteger)requester skipIcon:(SBIcon *)icon;
+- (void)setCurrentPageIconsGhostly:(BOOL)shouldGhost forRequester:(NSInteger)requester skipIcon:(SBIcon *)icon;
 - (void)prepareToGhostCurrentPageIconsForRequester:(int)arg1 skipIcon:(id)arg2;
 - (void)_clearFolderViewAndSlidingViews;
 - (void)dismissFolderKeyboard;
@@ -319,7 +320,7 @@
 - (void)_dropIconIntoOpenFolder:(id)arg1 withInsertionPath:(id)arg2;
 - (id)createNewFolderFromRecipientIcon:(id)arg1 grabbedIcon:(id)arg2;
 - (void)closeFolderAnimated:(BOOL)arg1 toSwitcher:(BOOL)arg2;
-- (void)closeFolderAnimated:(BOOL)arg1;
+- (void)closeFolderAnimated:(BOOL)arg1; 
 - (void)openFolder:(id)arg1 animated:(BOOL)arg2 fromSwitcher:(BOOL)arg3;
 - (void)openFolder:(id)arg1 animated:(BOOL)arg2;
 - (BOOL)isNewsstandOpen;

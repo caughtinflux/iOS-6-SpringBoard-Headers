@@ -4,14 +4,12 @@
  *     class-dump is Copyright (C) 1997-1998, 2000-2001, 2004-2011 by Steve Nygard.
  */
 
-#import "NSObject.h"
-
-@class NSObject<OS_dispatch_queue>;
+#import <Foundation/Foundation.h>
 
 @interface SBPushStore : NSObject
 {
-    NSObject<OS_dispatch_queue> *_notificationsQueue;
-    NSObject<OS_dispatch_queue> *_settingsQueue;
+    dispatch_queue_t _notificationsQueue;
+    dispatch_queue_t _settingsQueue;
 }
 
 + (void)migratePushStore;

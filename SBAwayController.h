@@ -5,7 +5,7 @@
  */
 
 #import "SBAlert.h"
-
+#import <CoreGraphics/CGBase.h>
 #import "SBShowcaseControllerOwner-Protocol.h"
 #import "SBSlidingAlertDisplayDelegate-Protocol.h"
 #import "SBDeviceLockViewOwner-Protocol.h"

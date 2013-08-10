@@ -5,6 +5,7 @@
  */
 
 #import "NSObject.h"
+#import "SBAlertManagerDelegate-Protocol.h"
 
 @class NSMutableArray, SBAlertWindow;
 
@@ -14,10 +15,10 @@
     SBAlertWindow *_deferredAlertWindow;
     NSMutableArray *_alerts;
     BOOL _deactivatingAllAlerts;
-    id <SBAlertManagerDelegate> _delegate;
+    id<SBAlertManagerDelegate> _delegate;
 }
 
-@property(nonatomic) id <SBAlertManagerDelegate> delegate; // @synthesize delegate=_delegate;
+@property (nonatomic, assign) id<SBAlertManagerDelegate> delegate; // @synthesize delegate=_delegate;
 - (void)_deactivateAfterNextLaunch:(id)arg1;
 - (void)_updateSEOStatus;
 - (void)_tearDownAlertWindow:(id)arg1;

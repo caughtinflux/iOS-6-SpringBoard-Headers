@@ -4,7 +4,7 @@
  *     class-dump is Copyright (C) 1997-1998, 2000-2001, 2004-2011 by Steve Nygard.
  */
 
-#import "UITableViewCell.h"
+#import <UIKit/UIKit.h>
 
 @class NSString, UIFont;
 
@@ -45,8 +45,9 @@
 + (id)alternateBackgroundColor;
 + (id)backgroundColor;
 + (void)initialize;
-@property(nonatomic) float edgeInset; // @synthesize edgeInset=_edgeInset;
-@property(nonatomic) float sectionHeaderWidth; // @synthesize sectionHeaderWidth=_sectionHeaderWidth;
+
+@property(nonatomic) CGFloat edgeInset; // @synthesize edgeInset=_edgeInset;
+@property(nonatomic) CGFloat sectionHeaderWidth; // @synthesize sectionHeaderWidth=_sectionHeaderWidth;
 @property(nonatomic, getter=isFirstInSection) BOOL firstInSection; // @synthesize firstInSection=_isFirstInSection;
 @property(nonatomic, getter=isLastInTableView) BOOL lastInTableView; // @synthesize lastInTableView=_isLastInTableView;
 @property(nonatomic, getter=isFirstInTableView) BOOL firstInTableView; // @synthesize firstInTableView=_isFirstInTableView;
@@ -55,14 +56,15 @@
 @property(nonatomic) BOOL usesAlternateBackgroundColor; // @synthesize usesAlternateBackgroundColor=_usesAlternateBackgroundColor;
 @property(nonatomic, getter=isStarred) BOOL starred; // @synthesize starred=_starred;
 @property(nonatomic, getter=isBadged) BOOL badged; // @synthesize badged=_badged;
-@property(retain, nonatomic) NSString *auxiliarySubtitle; // @synthesize auxiliarySubtitle=_auxiliarySubtitle;
-@property(retain, nonatomic) NSString *auxiliaryTitle; // @synthesize auxiliaryTitle=_auxiliaryTitle;
-@property(retain, nonatomic) NSString *summary; // @synthesize summary=_summary;
-@property(retain, nonatomic) NSString *subtitle; // @synthesize subtitle=_subtitle;
-@property(retain, nonatomic) NSString *title; // @synthesize title=_title;
+@property(copy, nonatomic) NSString *auxiliarySubtitle; // @synthesize auxiliarySubtitle=_auxiliarySubtitle;
+@property(copy, nonatomic) NSString *auxiliaryTitle; // @synthesize auxiliaryTitle=_auxiliaryTitle;
+@property(copy, nonatomic) NSString *summary; // @synthesize summary=_summary;
+@property(copy, nonatomic) NSString *subtitle; // @synthesize subtitle=_subtitle;
+@property(copy, nonatomic) NSString *title; // @synthesize title=_title;
+
 - (id)_scriptingInfo;
-- (void)drawRect:(struct CGRect)arg1;
-- (void)_drawContentInRect:(struct CGRect)arg1 selected:(BOOL)arg2;
+- (void)drawRect:(CGRect)arg1;
+- (void)_drawContentInRect:(CGRect)arg1 selected:(BOOL)arg2;
 - (BOOL)_drawsContent;
 - (void)_updateOpacity;
 - (void)clearContents;

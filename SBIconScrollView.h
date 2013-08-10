@@ -4,13 +4,13 @@
  *     class-dump is Copyright (C) 1997-1998, 2000-2001, 2004-2011 by Steve Nygard.
  */
 
-#import "UIScrollView.h"
+#import <UIKit/UIScrollView.h>
 
 @interface SBIconScrollView : UIScrollView
 {
 }
 
-- (void)setContentOffset:(struct CGPoint)arg1;
+- (void)setContentOffset:(CGPoint)arg1;
 - (BOOL)_scrollsToMakeFirstResponderVisible;
 - (BOOL)cancelTouchTracking;
 

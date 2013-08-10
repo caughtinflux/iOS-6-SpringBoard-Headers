@@ -4,9 +4,11 @@
  *     class-dump is Copyright (C) 1997-1998, 2000-2001, 2004-2011 by Steve Nygard.
  */
 
-#import <Foundation/NSObject.h>
+#import <Foundation/Foundation.h>
+#import "SBIconModelStore-Protocol.h"
+#import "SBIconModelDelegate-Protocol.h"
 
-@class NSDictionary, NSMutableDictionary, NSSet, SBNewsstandIcon, SBPrintStatusIcon, SBRootFolder;
+@class SBIcon, SBLeafIcon, SBApplicationIcon, SBNewsstandIcon, SBPrintStatusIcon, SBRootFolder;
 
 @interface SBIconModel : NSObject
 {
@@ -19,8 +21,8 @@
     SBRootFolder *_rootFolder;
     SBNewsstandIcon *_newsstandIcon;
     SBPrintStatusIcon *_printStatusIcon;
-    // id <SBIconModelStore> _store;
-    // id <SBIconModelDelegate> _delegate;
+    id<SBIconModelStore> _store;
+    id<SBIconModelDelegate> _delegate;
     BOOL _allowsSaving;
 }
 
@@ -29,9 +31,11 @@
 + (id)_modernIconListForList:(id)arg1;
 + (id)_modernIconCellForCell:(id)arg1;
 + (id)_migrateLeafIdentifierIfNecessary:(id)arg1;
-// @property(nonatomic) id <SBIconModelDelegate> delegate; // @synthesize delegate=_delegate;
-@property(nonatomic) BOOL allowsSaving; // @synthesize allowsSaving=_allowsSaving;
-@property(retain, nonatomic) NSDictionary *leafIconsByIdentifier; // @synthesize leafIconsByIdentifier=_leafIconsByIdentifier;
+
+@property(nonatomic, assign) id<SBIconModelDelegate> delegate; // @synthesize delegate=_delegate;
+@property(nonatomic, assign) BOOL allowsSaving; // @synthesize allowsSaving=_allowsSaving;
+@property(nonatomic, retain) NSDictionary *leafIconsByIdentifier; // @synthesize leafIconsByIdentifier=_leafIconsByIdentifier;
+
 - (BOOL)importState:(id)arg1;
 - (id)_iTunesDictionaryForDownloadingIcon:(id)arg1;
 - (id)_iTunesDictionaryForLeafIcon:(id)arg1;
@@ -63,17 +67,17 @@
 - (id)_indexPathForIdentifier:(id)arg1 inListRepresentation:(id)arg2;
 - (id)indexPathForIconInPlatformState:(id)arg1;
 - (void)removeIconForIdentifier:(id)arg1;
-- (void)removeIcon:(id)arg1;
-- (void)addIcon:(id)arg1;
+- (void)removeIcon:(SBIcon *)arg1;
+- (void)addIcon:(SBIcon *)arg1;
 - (void)_createIconLists;
 - (id)firstPageLeafIdentifiers;
 - (id)_modernPlatformState;
-- (id)_iconState;
-- (id)iconState;
-- (id)applicationIconForDisplayIdentifier:(id)arg1;
-- (NSString *)leafIconForIdentifier:(NSString *)arg1;
+- (NSDictionary *)_iconState;
+- (NSDictionary *)iconState;
+- (SBApplicationIcon *)applicationIconForDisplayIdentifier:(id)arg1;
+- (SBLeafIcon *)leafIconForIdentifier:(NSString *)arg1;
 - (id)expectedIconForDisplayIdentifier:(id)arg1;
-- (id)_applicationIcons;
+- (NSArray *)_applicationIcons;
 - (id)leafIcons;
 - (id)visibleIconIdentifiers;
 - (void)loadAllIcons;

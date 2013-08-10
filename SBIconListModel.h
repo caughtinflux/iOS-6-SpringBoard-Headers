@@ -4,7 +4,7 @@
  *     class-dump is Copyright (C) 1997-1998, 2000-2001, 2004-2011 by Steve Nygard.
  */
 
-#import "NSObject.h"
+#import <Foundation/NSObject.h>
 
 #import "SBIconIndexMutableListObserver-Protocol.h"
 #import "SBIconIndexNode-Protocol.h"
@@ -19,14 +19,14 @@
     SBFolder *_folder;
 }
 
-+ (unsigned int)maxIcons;
++ (NSUInteger)maxIcons;
 + (Class)viewClass;
 - (void)list:(id)arg1 didRemoveContainedNodeIdentifiers:(id)arg2;
 - (void)list:(id)arg1 didAddContainedNodeIdentifiers:(id)arg2;
 - (id)nodeDescriptionWithPrefix:(id)arg1;
 - (void)removeNodeObserver:(id)arg1;
 - (void)addNodeObserver:(id)arg1;
-- (id)nodesAlongIndexPath:(id)arg1 consumedIndexes:(unsigned int)arg2;
+- (id)nodesAlongIndexPath:(id)arg1 consumedIndexes:(NSUInteger)arg2;
 - (id)indexPathsForContainedNodeIdentifier:(id)arg1 prefixPath:(id)arg2;
 - (id)containedNodeIdentifiers;
 - (BOOL)containsNodeIdentifier:(id)arg1;
@@ -38,29 +38,28 @@
 - (void)markIconStateClean;
 - (BOOL)isIconStateDirty;
 - (id)iconsOfClass:(Class)arg1;
-- (unsigned int)compactIcons;
+- (NSUInteger)compactIcons;
 - (BOOL)needsCompacting;
 - (BOOL)isFull;
 - (BOOL)isEmpty;
-- (unsigned int)firstFreeSlotIndexForType:(int)arg1;
-- (unsigned int)firstFreeSlotIndex;
+- (NSUInteger)firstFreeSlotIndexForType:(int)arg1;
+- (NSUInteger)firstFreeSlotIndex;
 - (void)removeIcon:(id)arg1;
-- (void)removeIconAtIndex:(unsigned int)arg1;
-- (id)insertIcon:(id)arg1 atIndex:(unsigned int *)arg2;
-- (id)placeIcon:(id)arg1 atIndex:(unsigned int *)arg2;
+- (void)removeIconAtIndex:(NSUInteger)arg1;
+- (id)insertIcon:(id)arg1 atIndex:(NSUInteger *)arg2;
+- (id)placeIcon:(id)arg1 atIndex:(NSUInteger *)arg2;
 - (BOOL)addIcon:(id)arg1 asDirty:(BOOL)arg2;
 - (BOOL)addIcon:(id)arg1;
 - (BOOL)allowsAddingIcon:(id)arg1;
 - (BOOL)containsLeafIconWithIdentifier:(id)arg1;
 - (BOOL)containsIcon:(id)arg1;
-- (unsigned int)indexForLeafIconWithIdentifier:(id)arg1;
-- (unsigned int)indexForIcon:(id)arg1;
-- (id)iconAtIndex:(unsigned int)arg1;
+- (NSUInteger)indexForLeafIconWithIdentifier:(id)arg1;
+- (NSUInteger)indexForIcon:(id)arg1;
+- (id)iconAtIndex:(NSUInteger)arg1;
 - (id)icons;
-- (unsigned int)numberOfIcons;
-- (id)folder;
-- (void)dealloc;
-- (id)initWithFolder:(id)arg1;
+- (NSUInteger)numberOfIcons;
+- (SBFolder *)folder;
+- (id)initWithFolder:(SBFolder *)arg1;
 
 @end
 

@@ -59,9 +59,9 @@
 - (void)loadWebclipAndIcon:(id)arg1;
 - (void)loadApplicationsAndIcons:(id)arg1 reveal:(BOOL)arg2 popIn:(BOOL)arg3;
 - (void)waitForOperationsToComplete;
-- (void)uninstallApplication:(SBApplication *)arg1;
+- (void)uninstallApplication:(SBApplication *)app;
 - (void)removeApplicationsFromModelWithBundleIdentifier:(id)arg1;
-- (BOOL)loadApplication:(SBApplication *)arg1;
+- (BOOL)loadApplication:(SBApplication *)app    ;
 - (id)loadApplications;
 
 // Internal methods

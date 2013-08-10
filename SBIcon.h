@@ -5,6 +5,8 @@
  */
 
 #import <Foundation/Foundation.h>
+#import <CoreGraphics/CoreGraphics.h>
+ 
 #import "SBIconIndexNode-Protocol.h"
 
 @class NSHashTable, UIImage;
@@ -17,9 +19,9 @@
     UIImage *_cachedIconImages[12];
 }
 
-+ (id)memoryMappedIconImageOfSize:(struct CGSize)arg1 scale:(float)arg2 withDrawing:(id)arg3;
++ (id)memoryMappedIconImageOfSize:(CGSize)arg1 scale:(float)arg2 withDrawing:(id)arg3;
 + (id)memoryMappedIconImageForIconImage:(id)arg1;
-+ (id)_iconImageOfSize:(struct CGSize)arg1 scale:(float)arg2 failGracefully:(BOOL)arg3 drawing:(id)arg4;
++ (id)_iconImageOfSize:(CGSize)arg1 scale:(float)arg2 failGracefully:(BOOL)arg3 drawing:(id)arg4;
 - (id)folderFallbackTitle;
 - (id)folderTitleOptions;
 - (id)uninstallAlertCancelTitle;
@@ -72,9 +74,9 @@
 - (void)addNodeObserver:(id)arg1;
 - (id)nodesAlongIndexPath:(id)arg1 consumedIndexes:(unsigned int)arg2;
 - (id)indexPathsForContainedNodeIdentifier:(id)arg1 prefixPath:(id)arg2;
-- (id)containedNodeIdentifiers;
-- (BOOL)containsNodeIdentifier:(id)arg1;
-- (id)nodeIdentifier;
+- (NSSet *)containedNodeIdentifiers;
+- (BOOL)containsNodeIdentifier:(NSString *)arg1;
+- (NSString *)nodeIdentifier;
 - (BOOL)hasObserver:(id)arg1;
 - (void)removeObserver:(id)arg1;
 - (void)addObserver:(id)arg1;
